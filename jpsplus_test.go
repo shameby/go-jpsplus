@@ -147,7 +147,7 @@ func BenchmarkJumpPlus5x10(b *testing.B) {
 	}
 }
 
-func BenchmarkJumpPlus48X49(b *testing.B) {
+func BenchmarkJumpPlus50X50(b *testing.B) {
 	b.ResetTimer()
 	start := [2]int64{0, 0}
 	end := [2]int64{49, 49}
