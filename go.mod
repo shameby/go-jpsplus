@@ -1,3 +1,3 @@
-module go-jpsplus
+module jps_plus
 
 go 1.17
