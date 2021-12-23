@@ -6,7 +6,10 @@ import (
 	"testing"
 )
 
-var grid [][]uint8
+var (
+	grid50X50 [][]uint8
+	grid5X10 [][]uint8
+)
 
 var trans = map[uint8]string{
 	0: ".",
@@ -80,7 +83,7 @@ var (
 	m50X50 AStarMatrix
 )
 
-func copyGrid() [][]uint8 {
+func copyGrid(grid [][]uint8) [][]uint8 {
 	temp := make([][]uint8, len(grid))
 	copy(temp, grid)
 	for i, v := range grid {
@@ -99,10 +102,9 @@ func TestMain(t *testing.M) {
 			}
 			r = append(r, uint8(n))
 		}
-		grid = append(grid, r)
+		grid50X50 = append(grid50X50, r)
 	}
-	m50X50 = NewMatrix(grid)
-	grid = [][]uint8{}
+	m50X50 = NewMatrix(grid50X50)
 	for _, row := range strings.Split(strings.TrimSpace(world5X10), "\n") {
 		r := make([]uint8, 0, len(row))
 		for _, raw := range row {
@@ -112,9 +114,9 @@ func TestMain(t *testing.M) {
 			}
 			r = append(r, uint8(n))
 		}
-		grid = append(grid, r)
+		grid5X10 = append(grid5X10, r)
 	}
-	m5X10 = NewMatrix(grid)
+	m5X10 = NewMatrix(grid5X10)
 	t.Run()
 }
 
@@ -124,7 +126,7 @@ func TestJump(t *testing.T) {
 	if err != nil {
 		panic(err)
 	}
-	temp := copyGrid()
+	temp := copyGrid(grid50X50)
 	for _, node := range path {
 		temp[node.GetRow()][node.GetCol()] = 2
 	}
