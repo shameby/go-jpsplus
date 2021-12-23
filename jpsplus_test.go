@@ -14,7 +14,7 @@ var trans = map[uint8]string{
 	2: "o",
 }
 
-var world = `
+var world48X49 = `
 .X..........................XX...................
 ............................XX...................
 ........X..........XX.......XX...................
@@ -67,7 +67,18 @@ var world = `
 ..............................................XX.
 `
 
-var m AStarMatrix
+var world5X10 = `
+..X...X..
+......X..
+.XX...XX.
+..X......
+..X...X..
+`
+
+var (
+	m5X10  AStarMatrix
+	m48X49 AStarMatrix
+)
 
 func copyGrid() [][]uint8 {
 	temp := make([][]uint8, len(grid))
@@ -79,7 +90,7 @@ func copyGrid() [][]uint8 {
 }
 
 func TestMain(t *testing.M) {
-	for _, row := range strings.Split(strings.TrimSpace(world), "\n") {
+	for _, row := range strings.Split(strings.TrimSpace(world48X49), "\n") {
 		r := make([]uint8, 0, len(row))
 		for _, raw := range row {
 			n := 0
@@ -90,13 +101,26 @@ func TestMain(t *testing.M) {
 		}
 		grid = append(grid, r)
 	}
-	m = NewMatrix(grid)
+	m48X49 = NewMatrix(grid)
+	grid = [][]uint8{}
+	for _, row := range strings.Split(strings.TrimSpace(world5X10), "\n") {
+		r := make([]uint8, 0, len(row))
+		for _, raw := range row {
+			n := 0
+			if raw == 'X' {
+				n = 1
+			}
+			r = append(r, uint8(n))
+		}
+		grid = append(grid, r)
+	}
+	m5X10 = NewMatrix(grid)
 	t.Run()
 }
 
 func TestJump(t *testing.T) {
 	// "o" is the jump path
-	path, err := m.AStarJump([2]int64{0, 0}, [2]int64{49, 48})
+	path, err := m48X49.AStarJump([2]int64{0, 0}, [2]int64{49, 48})
 	if err != nil {
 		panic(err)
 	}
@@ -112,11 +136,20 @@ func TestJump(t *testing.T) {
 	}
 }
 
-func BenchmarkJumpPlus(b *testing.B) {
+func BenchmarkJumpPlus5x10(b *testing.B) {
+	b.ResetTimer()
+	start := [2]int64{0, 0}
+	end := [2]int64{0, 7}
+	for i := 0; i < b.N; i++ {
+		_, _ = m5X10.AStarJump(start, end)
+	}
+}
+
+func BenchmarkJumpPlus48X49(b *testing.B) {
 	b.ResetTimer()
 	start := [2]int64{0, 0}
 	end := [2]int64{49, 48}
 	for i := 0; i < b.N; i++ {
-		_, _ = m.AStarJump(start, end)
+		_, _ = m48X49.AStarJump(start, end)
 	}
 }
