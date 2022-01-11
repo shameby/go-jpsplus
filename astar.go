@@ -106,7 +106,6 @@ func (am AStarMatrix) AStarJump(start, goal [2]int64) ([]Node, error) {
 		if currNode == g {
 			break
 		}
-		fmt.Println(curr.node.Arr(), curr.fScore)
 		visited[currNode] = true
 		jd := am.getNodePlus(currNode).jumpDistance
 		for _, direction := range directionMap[curr.direction] {
