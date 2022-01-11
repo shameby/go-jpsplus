@@ -138,7 +138,7 @@ func TestJump(t *testing.T) {
 	}
 }
 
-func BenchmarkJumpPlus5x10(b *testing.B) {
+/*func BenchmarkJumpPlus5x10(b *testing.B) {
 	b.ResetTimer()
 	start := [2]int64{0, 0}
 	end := [2]int64{0, 7}
@@ -155,3 +155,4 @@ func BenchmarkJumpPlus50X50(b *testing.B) {
 		_, _ = m50X50.AStarJump(start, end)
 	}
 }
+*/

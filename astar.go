@@ -106,6 +106,7 @@ func (am AStarMatrix) AStarJump(start, goal [2]int64) ([]Node, error) {
 		if currNode == g {
 			break
 		}
+		fmt.Println(curr.node.Arr(), curr.fScore)
 		visited[currNode] = true
 		jd := am.getNodePlus(currNode).jumpDistance
 		for _, direction := range directionMap[curr.direction] {
@@ -122,9 +123,9 @@ func (am AStarMatrix) AStarJump(start, goal [2]int64) ([]Node, error) {
 					cameFrom[g] = currNode
 					return genPath(cameFrom, g)
 				}
-				if !isStraightHasJp(am.getNodePlus(to), direction) {
+				/*if !isStraightHasJp(am.getNodePlus(to), direction) {
 					continue
-				}
+				}*/
 			} else {
 				to = am.getNode(currNode.GetRow()+distance*int64(dRow), currNode.GetCol()+distance*int64(dCol))
 				if isOnWay(currNode, to, g) {
@@ -178,9 +179,7 @@ func moveWeight(a, b Node) float64 {
 	return math.Sqrt(math.Pow(xDist, 2) + math.Pow(yDist, 2))
 }
 
-
-
-func isStraightHasJp(curr *NodePlus, direction DirectionIdx) bool {
+/*func isStraightHasJp(curr *NodePlus, direction DirectionIdx) bool {
 	switch direction {
 	case IdxDownRight:
 		return curr.jumpDistance[IdxDown] > 0 || curr.jumpDistance[IdxRight] > 0
@@ -192,7 +191,7 @@ func isStraightHasJp(curr *NodePlus, direction DirectionIdx) bool {
 		return curr.jumpDistance[IdxUp] > 0 || curr.jumpDistance[IdxLeft] > 0
 	}
 	return false
-}
+}*/
 
 func isOnWay(curr, to, goal Node) bool {
 	if to == goal {
